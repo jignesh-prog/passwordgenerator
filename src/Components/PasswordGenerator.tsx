@@ -11,8 +11,8 @@ import { useEffect, useState, useRef } from "react";
 const PasswordGenerator = () => {
   const [password, setPassword] = useState("");
   const [length, setLength] = useState(6);
-  const [numbers, setNumbers] = useState();
-  const [symbols, setSymbols] = useState("");
+  const [numbers, setNumbers] = useState(false);
+  const [symbols, setSymbols] = useState(false);
   const passwordRef = useRef(null);
   const copyPassword = () => {
     window.navigator.clipboard.writeText(password);
@@ -20,17 +20,21 @@ const PasswordGenerator = () => {
   useEffect(() => {
     generatePassword();
   }, [numbers, symbols, length]);
-  const includeNumbers = (e: any) => {
+  const includeNumbers = (e: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
     setNumbers(e.target.checked);
   };
-  const includeSymbols = (e: any) => {
+  const includeSymbols = (e: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
     setSymbols(e.target.checked);
   };
   let changeLength = (e: any) => {
     setLength(e.target.value);
   };
   const generatePassword = () => {
-    let pass = "";
+    let pass: string = "";
     let str = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
     if (numbers) {
