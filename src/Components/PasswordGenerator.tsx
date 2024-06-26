@@ -7,12 +7,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 const PasswordGenerator = () => {
   const [password, setPassword] = useState("");
   const [length, setLength] = useState(6);
   const [numbers, setNumbers] = useState();
   const [symbols, setSymbols] = useState("");
+  const passwordRef = useRef(null);
+  const copyPassword = () => {
+    window.navigator.clipboard.writeText(password);
+  };
   useEffect(() => {
     generatePassword();
   }, [numbers, symbols, length]);
@@ -80,6 +84,7 @@ const PasswordGenerator = () => {
               onChange={generatePassword}
               placeholder="Password"
               inputProps={{ readOnly: true }}
+              ref={passwordRef}
               sx={{
                 backgroundColor: "white",
                 color: "red",
@@ -87,9 +92,6 @@ const PasswordGenerator = () => {
               }}
             ></TextField>
             <Button
-              onClick={() => {
-                alert("clicked");
-              }}
               variant="contained"
               sx={{
                 width: "25px",
@@ -97,6 +99,7 @@ const PasswordGenerator = () => {
                 borderColor: "black",
                 flexGrow: 1,
               }}
+              onClick={copyPassword}
             >
               copy
             </Button>
